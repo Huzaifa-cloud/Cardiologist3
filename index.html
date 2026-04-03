@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Umer Iqbal, MD, FACC — Cardiologist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #ffffff;
+  --off-white: #faf8f5;
+  --surface: #f0ece1;
+  --navy: #024e5b;
+  --slate: #232b2b;
+  --steel: #6b7778;
+  --mist: #9aa5a6;
+  --border: #e6e2da;
+  --border-mid: #d6cfbf;
+  --accent: #b49051;
+  --accent-light: #fdfbf7;
+  --accent-mid: #c5a163;
+  --red: #c0392b;
+  --red-light: #fef1f0;
+  --text: #232b2b;
+  --text-mid: #4a5556;
+  --text-muted: #6b7778;
+  --text-dim: #9aa5a6;
+  --ff-serif: 'Playfair Display', Georgia, serif;
+  --ff-sans: 'Plus Jakarta Sans', sans-serif;
+  --radius: 6px;
+  --shadow: 0 4px 20px rgba(2, 78, 91, 0.05), 0 1px 4px rgba(2, 78, 91, 0.03);
+  --shadow-hover: 0 16px 40px rgba(2, 78, 91, 0.08), 0 6px 12px rgba(2, 78, 91, 0.04);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--off-white);
+  color: var(--text);
+  font-family: var(--ff-sans);
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--off-white); }
+::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 2px; }
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 64px;
+  background: rgba(247,247,245,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid transparent;
+  transition: padding 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+nav.scrolled {
+  padding: 15px 64px;
+  border-color: var(--border);
+  box-shadow: 0 1px 20px rgba(26,43,60,0.06);
+}
+.nav-logo { font-family: var(--ff-serif); font-size: 18px; font-weight: 500; color: var(--navy); }
+.nav-logo em { color: var(--accent-mid); font-style: normal; }
+.nav-links { display: flex; gap: 40px; list-style: none; }
+.nav-links a {
+  text-decoration: none; font-size: 13px; font-weight: 400;
+  color: var(--text-muted); letter-spacing: 0.04em;
+  transition: color 0.2s; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
+  height: 1px; background: var(--accent-mid);
+  transform: scaleX(0); transition: transform 0.25s ease;
+}
+.nav-links a:hover { color: var(--navy); }
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-cta {
+  background: var(--navy); color: var(--white); border: none;
+  padding: 10px 24px; border-radius: var(--radius);
+  font-family: var(--ff-sans); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.06em; cursor: pointer;
+  transition: background 0.25s, transform 0.2s;
+}
+.nav-cta:hover { background: var(--accent); transform: translateY(-1px); }
+
+/* HAMBURGER */
+.hamburger {
+  display: none; flex-direction: column; gap: 5px; cursor: pointer;
+  background: transparent; border: none; padding: 6px;
+  border-radius: var(--radius);
+}
+.hamburger span {
+  display: block; width: 22px; height: 1.5px; background: var(--navy);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* MOBILE NAV OVERLAY */
+.mobile-nav {
+  display: none; position: fixed; inset: 0; z-index: 90;
+  background: rgba(247,247,245,0.97); backdrop-filter: blur(20px);
+  flex-direction: column; align-items: center; justify-content: center;
+  gap: 36px; opacity: 0; pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.mobile-nav.open { opacity: 1; pointer-events: all; }
+.mobile-nav a {
+  font-family: var(--ff-serif); font-size: 30px; font-weight: 500;
+  color: var(--navy); text-decoration: none; letter-spacing: 0.02em;
+  transition: color 0.2s;
+}
+.mobile-nav a:hover { color: var(--accent-mid); }
+.mobile-nav-cta { color: var(--accent-mid) !important; }
+
+/* HERO */
+.hero {
+  display: flex; align-items: center;
+  min-height: 100vh; padding: 140px 64px 40px;
+  background: var(--white); border-bottom: 1px solid var(--border);
+  position: relative; overflow: hidden;
+}
+.hero-left {
+  animation: fadeUp 0.8s ease both;
+  position: relative; z-index: 2;
+  max-width: 580px;
+}
+.hero-image-wrap {
+  position: absolute;
+  right: 0; bottom: 0;
+  height: 88%;
+  width: 46%;
+  z-index: 1;
+  display: flex; align-items: flex-end; justify-content: center;
+  animation: fadeUp 0.9s 0.2s ease both;
+  overflow: hidden;
+}
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  mix-blend-mode: multiply;
+  transform-origin: top center;
+  animation: heroPan 15s ease-in-out infinite alternate;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes heroPan {
+  0% { transform: scale(2.2) translateY(0); }
+  100% { transform: scale(2.25) translateY(-5px); }
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--accent-mid); margin-bottom: 20px;
+}
+.hero-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--accent-mid); }
+.name-and-image { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 24px; width: 100%; }
+.name-and-image h1.hero-name { margin-bottom: 10px; }
+.mobile-avatar { display: none; }
+h1.hero-name {
+  font-family: var(--ff-sans); font-size: clamp(40px, 5.5vw, 74px);
+  font-weight: 600; line-height: 1.05; color: var(--navy); letter-spacing: -0.02em; margin-bottom: 10px;
+}
+h1.hero-name em { font-style: normal; font-weight: 300; color: var(--navy); }
+.hero-creds {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.22em;
+  color: var(--accent-mid); text-transform: uppercase; margin-bottom: 0;
+}
+.hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.tag {
+  padding: 5px 14px; border: 1px solid var(--border-mid); border-radius: 2px;
+  font-size: 11px; font-weight: 400; color: var(--text-mid);
+  background: var(--off-white);
+}
+.hero-desc {
+  font-size: 15px; line-height: 1.85; color: var(--text-muted);
+  max-width: 520px; margin-bottom: 36px;
+}
+.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--navy); color: var(--white); border: none;
+  padding: 13px 30px; border-radius: var(--radius);
+  font-family: var(--ff-sans); font-size: 13px; font-weight: 400;
+  cursor: pointer; transition: background 0.25s, transform 0.2s;
+}
+.btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+.btn-ghost {
+  background: transparent; color: var(--text-mid);
+  border: 1px solid var(--border-mid); padding: 13px 30px;
+  border-radius: var(--radius); font-family: var(--ff-sans);
+  font-size: 13px; font-weight: 400; cursor: pointer;
+  transition: border-color 0.25s, color 0.25s, transform 0.2s;
+}
+.btn-ghost:hover { border-color: var(--slate); color: var(--navy); transform: translateY(-1px); }
+
+/* Hero card */
+.hero-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 6px; padding: 40px 36px; box-shadow: var(--shadow);
+  position: relative; overflow: hidden;
+}
+.hero-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; background: linear-gradient(90deg, var(--accent-mid), #85c1e9);
+}
+.avatar-wrap { display: flex; flex-direction: column; align-items: center; margin-bottom: 24px; }
+.avatar {
+  width: 88px; height: 88px; border-radius: 50%;
+  border: 2px solid var(--border-mid); background: var(--accent-light);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px; animation: soft-pulse 3.5s ease-in-out infinite;
+}
+@keyframes soft-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(46,134,193,0.15); }
+  50% { box-shadow: 0 0 0 10px rgba(46,134,193,0); }
+}
+.avatar-initials { font-family: var(--ff-serif); font-size: 28px; font-weight: 500; color: var(--accent); }
+.card-name { font-family: var(--ff-serif); font-size: 19px; font-weight: 500; color: var(--navy); margin-bottom: 3px; }
+.card-role { font-size: 12px; color: var(--text-muted); text-align: center; }
+
+/* ECG */
+.ecg-block {
+  background: transparent; border: none;
+  padding: 4px 0;
+  margin-top: 20px; margin-bottom: 48px;
+  max-width: 520px;
+}
+.ecg-label-txt { font-size: 10px; color: var(--text-dim); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; }
+.ecg-svg { width: 100%; display: block; }
+.ecg-line {
+  stroke: var(--red); stroke-width: 1.5; fill: none;
+  stroke-dasharray: 380; stroke-dashoffset: 380;
+  animation: draw 2s 0.5s ease forwards, loop 3.2s 2.5s linear infinite;
+}
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes loop {
+  0% { stroke-dashoffset: 0; opacity: 1; }
+  84% { stroke-dashoffset: -380; opacity: 1; }
+  85% { stroke-dashoffset: 380; opacity: 0; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+.card-badges { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.badge {
+  padding: 4px 12px; border-radius: 2px; font-size: 10px;
+  font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.badge-navy { background: var(--navy); color: var(--white); }
+.badge-blue { background: var(--accent-light); color: var(--accent); border: 1px solid #c5ddf0; }
+.badge-red  { background: var(--red-light); color: var(--red); border: 1px solid #f0d0cc; }
+
+/* STATS */
+.stats-bar {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 24px;
+  background: var(--off-white); padding: 32px 64px 64px 64px; border-bottom: 1px solid var(--border);
+}
+.stat-item {
+  background: var(--white);
+  padding: 44px 36px; border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+}
+.stat-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--border-mid);
+}
+.stat-num { font-family: var(--ff-serif); font-size: 48px; font-weight: 500; color: var(--navy); line-height: 1; margin-bottom: 6px; }
+.stat-num sup { font-size: 22px; color: var(--accent-mid); }
+.stat-label { font-size: 12px; color: var(--text-muted); letter-spacing: 0.04em; }
+
+/* SECTIONS */
+section {
+  padding: 96px 64px;
+  border-bottom: 1px solid var(--border);
+  background: var(--white);
+}
+section:nth-of-type(odd) { background: var(--off-white); }
+.section-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--accent-mid); margin-bottom: 12px;
+}
+.section-eyebrow::before { content: ''; width: 22px; height: 1px; background: var(--accent-mid); }
+h2.section-title {
+  font-family: var(--ff-serif); font-size: clamp(30px, 3.5vw, 46px);
+  font-weight: 500; color: var(--navy); line-height: 1.15; margin-bottom: 52px;
+}
+
+/* reveal */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ABOUT */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
+.about-text { font-size: 15px; line-height: 1.9; color: var(--text-muted); }
+.about-text p + p { margin-top: 18px; }
+.cred-list { display: flex; flex-direction: column; gap: 10px; }
+.cred-item {
+  display: flex; gap: 16px; padding: 16px 18px;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+}
+.cred-item:hover { border-color: var(--border-mid); transform: translateX(4px); box-shadow: var(--shadow); }
+.cred-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-mid); margin-top: 8px; flex-shrink: 0; }
+.cred-main { font-size: 13px; font-weight: 500; color: var(--navy); margin-bottom: 2px; }
+.cred-sub  { font-size: 12px; color: var(--text-muted); }
+
+/* SERVICES */
+.services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.svc-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 4px; padding: 28px 26px;
+  transition: border-color 0.25s, transform 0.3s, box-shadow 0.3s;
+  position: relative; overflow: hidden;
+}
+.svc-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 2px; background: var(--accent-mid);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.svc-card:hover { border-color: var(--border-mid); transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+.svc-card:hover::after { transform: scaleX(1); }
+.svc-icon {
+  width: 42px; height: 42px; background: var(--accent-light);
+  border-radius: 4px; display: flex; align-items: center;
+  justify-content: center; margin-bottom: 18px;
+}
+.svc-icon svg { width: 20px; height: 20px; stroke: var(--accent); fill: none; stroke-width: 1.5; }
+.svc-name { font-size: 14px; font-weight: 500; color: var(--navy); margin-bottom: 8px; }
+.svc-desc { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+
+/* PUBLICATIONS */
+.pub-list { display: flex; flex-direction: column; gap: 10px; }
+.pub-item {
+  display: grid; grid-template-columns: 48px 1fr auto; gap: 20px;
+  align-items: center; padding: 18px 22px;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); transition: border-color 0.25s, box-shadow 0.25s;
+}
+.pub-item:hover { border-color: var(--border-mid); box-shadow: var(--shadow); }
+.pub-year { font-family: var(--ff-serif); font-size: 16px; color: var(--accent-mid); }
+.pub-title { font-size: 13px; font-weight: 500; color: var(--navy); margin-bottom: 3px; }
+.pub-journal { font-size: 12px; color: var(--text-muted); font-style: italic; }
+.pub-tag {
+  padding: 4px 10px; border-radius: 2px; font-size: 10px;
+  font-weight: 500; letter-spacing: 0.06em; white-space: nowrap;
+  background: var(--accent-light); color: var(--accent); border: 1px solid #c5ddf0;
+}
+
+/* TESTIMONIALS */
+.testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.testi-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 4px; padding: 28px;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.testi-card:hover { border-color: var(--border-mid); box-shadow: var(--shadow); }
+.testi-mark { font-family: var(--ff-serif); font-size: 52px; color: var(--border-mid); line-height: 0.7; margin-bottom: 14px; }
+.stars { color: #c8a84b; font-size: 13px; letter-spacing: 2px; margin-bottom: 14px; }
+.testi-text { font-size: 14px; line-height: 1.8; color: var(--text-muted); font-style: italic; margin-bottom: 20px; }
+.testi-author { font-size: 12px; font-weight: 500; color: var(--text-mid); }
+
+/* CONTACT */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
+.contact-list { display: flex; flex-direction: column; gap: 26px; }
+.contact-row { display: flex; gap: 16px; }
+.contact-dot-col { padding-top: 6px; }
+.contact-dot { width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid var(--accent-mid); flex-shrink: 0; }
+.contact-label { font-size: 11px; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 3px; }
+.contact-val { font-size: 14px; color: var(--navy); font-weight: 400; }
+.form { display: flex; flex-direction: column; gap: 12px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form input, .form select, .form textarea {
+  width: 100%; padding: 12px 14px; background: var(--white);
+  border: 1px solid var(--border-mid); border-radius: var(--radius);
+  font-family: var(--ff-sans); font-size: 13px; font-weight: 300;
+  color: var(--navy); outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s;
+  -webkit-appearance: none; appearance: none;
+}
+.form input::placeholder, .form textarea::placeholder { color: var(--text-dim); }
+.form input:focus, .form select:focus, .form textarea:focus {
+  border-color: var(--accent-mid); box-shadow: 0 0 0 3px rgba(46,134,193,0.1);
+}
+.form select option { background: var(--white); }
+.form textarea { resize: vertical; min-height: 90px; }
+.field-wrap { display: flex; flex-direction: column; gap: 4px; }
+.field-label {
+  font-size: 11px; font-weight: 500; color: var(--text-muted);
+  letter-spacing: 0.06em; text-transform: uppercase;
+}
+.form-submit {
+  background: var(--navy); color: var(--white); border: none;
+  padding: 14px; width: 100%; border-radius: var(--radius);
+  font-family: var(--ff-sans); font-size: 13px; font-weight: 500;
+  letter-spacing: 0.06em; cursor: pointer;
+  transition: background 0.25s, transform 0.2s;
+}
+.form-submit:hover { background: var(--accent); transform: translateY(-1px); }
+
+/* FOOTER */
+footer {
+  background: var(--navy); padding: 32px 64px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.footer-logo { font-family: var(--ff-serif); font-size: 16px; color: rgba(255,255,255,0.65); }
+.footer-logo em { color: #fff; font-style: normal; }
+.footer-links { display: flex; gap: 28px; font-size: 12px; color: rgba(255,255,255,0.38); }
+.footer-copy { font-size: 12px; color: rgba(255,255,255,0.32); }
+.footer-links a { color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: rgba(255,255,255,0.8); }
+
+@media (max-width: 900px) {
+  nav { padding: 16px 24px; }
+  nav.scrolled { padding: 12px 24px; }
+  .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .hamburger { display: flex; }
+  .mobile-nav { display: flex; }
+  .hero { padding: 120px 24px 30px; flex-direction: column; align-items: flex-start; text-align: left; min-height: 100vh; }
+  .hero-left { order: 2; max-width: 100%; display: flex; flex-direction: column; align-items: flex-start; width: 100%; }
+  .hero-eyebrow::before { display: inline-block; }
+  .hero-tags { justify-content: flex-start; margin-bottom: 24px; }
+  .hero-btns { justify-content: flex-start; width: 100%; flex-direction: column; gap: 12px; margin-top: 16px; }
+  .btn-primary, .btn-ghost { width: 100%; padding: 15px 24px; font-size: 14px; }
+  .hero-image-wrap { display: none; }
+  .mobile-avatar { display: block; flex-shrink: 0; width: 130px; height: 170px; border-radius: 0; border: none; overflow: hidden; box-shadow: none; background: transparent; }
+  .mobile-avatar-img { width: 100%; height: 100%; object-fit: cover; object-position: top center; mix-blend-mode: multiply; transform: scale(2.2); transform-origin: top center; }
+  h1.hero-name { font-size: clamp(36px, 8vw, 56px); }
+  .hero-desc { padding: 0; }
+  .stats-bar { grid-template-columns: repeat(2,1fr); padding: 20px 24px 40px 24px; gap: 16px; }
+  .stat-item { padding: 32px 20px; }
+  section { padding: 64px 24px; }
+  .section-eyebrow { justify-content: center; width: 100%; }
+  .section-eyebrow::before { display: none; }
+  h2.section-title { font-size: clamp(28px, 6vw, 36px); text-align: center; }
+  .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+  .about-text { text-align: center; }
+  .services-grid, .testi-grid { grid-template-columns: 1fr; gap: 24px; }
+  .pub-item { grid-template-columns: 48px 1fr; position: relative; padding: 24px 20px 20px; }
+  .pub-tag { position: absolute; top: 16px; right: 20px; }
+  .contact-row { flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+  .contact-dot-col { display: none; }
+  .form-row { grid-template-columns: 1fr; }
+  .form-submit { padding: 16px; font-size: 14px; }
+  footer { flex-direction: column; gap: 20px; text-align: center; padding: 40px 24px; }
+}
+@media (max-width: 480px) {
+  .stats-bar { grid-template-columns: 1fr; padding: 16px 24px 32px 24px; gap: 16px; }
+  .mobile-avatar { width: 110px; height: 140px; }
+  h1.hero-name { font-size: clamp(30px, 8vw, 40px); }
+}
+
+/* WhatsApp Float */
+.whatsapp-float {
+  position: fixed;
+  width: 56px;
+  height: 56px;
+  bottom: 30px;
+  right: 30px;
+  background-color: #25d366;
+  color: #FFF;
+  border-radius: 50px;
+  text-align: center;
+  font-size: 30px;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.whatsapp-float:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 8px 16px rgba(37, 211, 102, 0.5);
+}
+.whatsapp-float svg {
+  width: 32px;
+  height: 32px;
+  fill: currentColor;
+}
+@media (max-width: 900px) {
+  .whatsapp-float {
+    width: 50px;
+    height: 50px;
+    bottom: 20px;
+    right: 20px;
+  }
+  .whatsapp-float svg {
+    width: 28px;
+    height: 28px;
+  }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">Dr. <em>Umer</em> Iqbal</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#specializations">Specializations</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#testimonials">Testimonials</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="window.open('https://wa.me/923292543307', '_blank')">Book Appointment</button>
+  <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-nav" id="mobile-nav" role="navigation" aria-label="Mobile navigation">
+  <a href="#about" class="mobile-nav-link">About</a>
+  <a href="#specializations" class="mobile-nav-link">Specializations</a>
+  <a href="#research" class="mobile-nav-link">Research</a>
+  <a href="#testimonials" class="mobile-nav-link">Testimonials</a>
+  <a href="#contact" class="mobile-nav-link">Contact</a>
+  <a href="https://wa.me/923292543307" target="_blank" rel="noopener noreferrer" class="mobile-nav-link mobile-nav-cta">Book Appointment</a>
+</div>
+
+<header class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Interventional Cardiologist</div>
+    <div class="name-and-image">
+      <div>
+        <h1 class="hero-name">Dr. Umer<br><em>Iqbal</em></h1>
+        <div class="hero-creds">MD · FACC · FESC · FSCAI</div>
+      </div>
+      <div class="mobile-avatar">
+        <img src="cardiologist_portrait.png" alt="Dr. Umer Iqbal" class="mobile-avatar-img">
+      </div>
+    </div>
+    <div class="ecg-block">
+      <svg class="ecg-svg" viewBox="0 0 320 44" xmlns="http://www.w3.org/2000/svg">
+        <path class="ecg-line" d="M0,28 L28,28 L36,28 L40,8 L44,44 L48,8 L52,28 L60,28 L88,28 L96,28 L100,8 L104,44 L108,8 L112,28 L120,28 L158,28 L166,28 L170,8 L174,44 L178,8 L182,28 L190,28 L228,28 L236,28 L240,8 L244,44 L248,8 L252,28 L260,28 L320,28"/>
+      </svg>
+    </div>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Schedule a Consultation</button>
+      <button class="btn-ghost" onclick="document.getElementById('research').scrollIntoView({behavior:'smooth'})">View Publications</button>
+    </div>
+  </div>
+  <div class="hero-image-wrap">
+    <img src="cardiologist_portrait.png" alt="Dr. Umer Iqbal — Interventional Cardiologist" class="hero-img" id="hero-doctor-img">
+  </div>
+</header>
+
+<div class="stats-bar" role="region" aria-label="Practice statistics">
+  <div class="stat-item reveal">
+    <div class="stat-num"><span class="counter" data-target="22">0</span><sup>+</sup></div>
+    <div class="stat-label">Years of practice</div>
+  </div>
+  <div class="stat-item reveal" style="transition-delay:.1s">
+    <div class="stat-num"><span class="counter" data-target="8400">0</span><sup>+</sup></div>
+    <div class="stat-label">Patients treated</div>
+  </div>
+  <div class="stat-item reveal" style="transition-delay:.2s">
+    <div class="stat-num"><span class="counter" data-target="3100">0</span><sup>+</sup></div>
+    <div class="stat-label">Procedures performed</div>
+  </div>
+  <div class="stat-item reveal" style="transition-delay:.3s">
+    <div class="stat-num"><span class="counter" data-target="47">0</span><sup>+</sup></div>
+    <div class="stat-label">Published research papers</div>
+  </div>
+</div>
+
+<section id="about">
+  <div class="section-eyebrow reveal">Background</div>
+  <h2 class="section-title reveal">About Dr. Umer</h2>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>Dr. Umer Iqbal is a board-certified interventional cardiologist with specialized training in cardiac electrophysiology and heart failure management. He completed his fellowship at Johns Hopkins Hospital and has since led the cardiac catheterization program at the National Heart Institute.</p>
+      <p>His clinical approach combines the latest evidence-based guidelines with a deeply patient-centered philosophy — ensuring that each patient fully understands their diagnosis, treatment options, and long-term care plan before any decision is made.</p>
+      <p>Beyond clinical practice, Dr. Umer serves on editorial boards for JACC and Circulation, and regularly presents at major international conferences including ACC, ESC, and TCT.</p>
+    </div>
+    <div class="cred-list reveal" style="transition-delay:.15s">
+      <div class="cred-item"><div class="cred-dot"></div><div><div class="cred-main">MD, Cardiovascular Medicine</div><div class="cred-sub">Johns Hopkins University School of Medicine, 2002</div></div></div>
+      <div class="cred-item"><div class="cred-dot"></div><div><div class="cred-main">Fellowship, Interventional Cardiology</div><div class="cred-sub">Mayo Clinic, 2005</div></div></div>
+      <div class="cred-item"><div class="cred-dot"></div><div><div class="cred-main">Board Certified — ABIM Cardiovascular Disease</div><div class="cred-sub">American Board of Internal Medicine, 2006</div></div></div>
+      <div class="cred-item"><div class="cred-dot"></div><div><div class="cred-main">Fellow, American College of Cardiology (FACC)</div><div class="cred-sub">Since 2007</div></div></div>
+      <div class="cred-item"><div class="cred-dot"></div><div><div class="cred-main">Fellow, European Society of Cardiology (FESC)</div><div class="cred-sub">Since 2010</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="specializations">
+  <div class="section-eyebrow reveal">Clinical Expertise</div>
+  <h2 class="section-title reveal">Specializations</h2>
+  <div class="services-grid">
+    <div class="svc-card reveal" style="transition-delay:.05s"><div class="svc-icon"><svg viewBox="0 0 24 24"><path style="fill:var(--accent);stroke:none;" d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg></div><div class="svc-name">Interventional cardiology</div><div class="svc-desc">Coronary angioplasty, stent placement, and catheter-based treatments for blocked or narrowed arteries.</div></div>
+    <div class="svc-card reveal" style="transition-delay:.1s"><div class="svc-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="svc-name">Cardiac electrophysiology</div><div class="svc-desc">Diagnosis and treatment of arrhythmias, including catheter ablation and device implantation.</div></div>
+    <div class="svc-card reveal" style="transition-delay:.15s"><div class="svc-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div class="svc-name">Heart failure management</div><div class="svc-desc">Comprehensive care for chronic and acute heart failure with advanced device and transplant therapies.</div></div>
+    <div class="svc-card reveal" style="transition-delay:.2s"><div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div class="svc-name">Preventive cardiology</div><div class="svc-desc">Risk factor management, lipid disorders, hypertension, and lifestyle modification programs.</div></div>
+    <div class="svc-card reveal" style="transition-delay:.25s"><div class="svc-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div><div class="svc-name">Structural heart disease</div><div class="svc-desc">Transcatheter valve repair and replacement for aortic, mitral, and tricuspid valve conditions.</div></div>
+    <div class="svc-card reveal" style="transition-delay:.3s"><div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div><div class="svc-name">Advanced cardiac imaging</div><div class="svc-desc">3D echocardiography, cardiac CT angiography, and MRI for precise structural assessment.</div></div>
+  </div>
+</section>
+
+<section id="research">
+  <div class="section-eyebrow reveal">Scholarship</div>
+  <h2 class="section-title reveal">Selected Publications</h2>
+  <div class="pub-list">
+    <div class="pub-item reveal"><div class="pub-year">2024</div><div><div class="pub-title">Outcomes of catheter ablation in persistent atrial fibrillation: a 5-year follow-up multicenter study</div><div class="pub-journal">Journal of the American College of Cardiology</div></div><span class="pub-tag">JACC</span></div>
+    <div class="pub-item reveal" style="transition-delay:.08s"><div class="pub-year">2023</div><div><div class="pub-title">TAVI versus surgical aortic valve replacement in intermediate-risk patients: 3-year outcomes</div><div class="pub-journal">New England Journal of Medicine</div></div><span class="pub-tag">NEJM</span></div>
+    <div class="pub-item reveal" style="transition-delay:.16s"><div class="pub-year">2022</div><div><div class="pub-title">Role of SGLT2 inhibitors in reducing hospitalization for acute decompensated heart failure</div><div class="pub-journal">Circulation: Heart Failure</div></div><span class="pub-tag">Circulation</span></div>
+    <div class="pub-item reveal" style="transition-delay:.24s"><div class="pub-year">2021</div><div><div class="pub-title">Left atrial appendage closure versus anticoagulation in non-valvular atrial fibrillation</div><div class="pub-journal">European Heart Journal</div></div><span class="pub-tag">EHJ</span></div>
+    <div class="pub-item reveal" style="transition-delay:.32s"><div class="pub-year">2020</div><div><div class="pub-title">Long-term mortality after drug-eluting stent implantation in complex coronary artery disease</div><div class="pub-journal">The Lancet</div></div><span class="pub-tag">Lancet</span></div>
+  </div>
+</section>
+
+<section id="testimonials">
+  <div class="section-eyebrow reveal">Patient Feedback</div>
+  <h2 class="section-title reveal">What Patients Say</h2>
+  <div class="testi-grid">
+    <div class="testi-card reveal"><div class="testi-mark">"</div><div class="stars">★★★★★</div><div class="testi-text">Dr. Umer explained my diagnosis with clarity and patience. He made sure I was fully informed at every step — his calm manner made an incredibly stressful time much easier to bear.</div><div class="testi-author">Fatima R. — Cardiac patient, 2024</div></div>
+    <div class="testi-card reveal" style="transition-delay:.1s"><div class="testi-mark">"</div><div class="stars">★★★★★</div><div class="testi-text">After years of undiagnosed arrhythmia, Dr. Umer immediately identified the issue and performed ablation. I have been completely symptom-free for over a year — truly life-changing.</div><div class="testi-author">James T. — Electrophysiology patient, 2024</div></div>
+    <div class="testi-card reveal" style="transition-delay:.2s"><div class="testi-mark">"</div><div class="stars">★★★★★</div><div class="testi-text">The most thorough cardiologist I have ever seen. He reviewed my entire history, ran the right tests, and built a prevention plan that has genuinely improved my quality of life.</div><div class="testi-author">Layla M. — Preventive cardiology, 2023</div></div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-eyebrow reveal">Get in Touch</div>
+  <h2 class="section-title reveal">Book an Appointment</h2>
+  <div class="contact-grid">
+    <div class="contact-list reveal">
+      <div class="contact-row"><div class="contact-dot-col"><div class="contact-dot"></div></div><div><div class="contact-label">Clinic address</div><div class="contact-val">National Heart Institute, Suite 400<br>42 Cardiac Way, Karachi, Pakistan</div></div></div>
+      <div class="contact-row"><div class="contact-dot-col"><div class="contact-dot"></div></div><div><div class="contact-label">Phone</div><div class="contact-val">+92 321 000 0000</div></div></div>
+      <div class="contact-row"><div class="contact-dot-col"><div class="contact-dot"></div></div><div><div class="contact-label">Email</div><div class="contact-val">dr.iqbal@heartinstitute.pk</div></div></div>
+      <div class="contact-row"><div class="contact-dot-col"><div class="contact-dot"></div></div><div><div class="contact-label">Clinic hours</div><div class="contact-val">Monday – Friday, 9:00 am – 5:00 pm<br>Saturday, 9:00 am – 1:00 pm</div></div></div>
+      <div class="contact-row"><div class="contact-dot-col"><div class="contact-dot"></div></div><div><div class="contact-label">Insurance</div><div class="contact-val">Most major plans accepted<br>Private pay welcome</div></div></div>
+    </div>
+    <form class="form reveal" id="appointment-form" action="#" method="post" novalidate style="transition-delay:.15s">
+      <div class="form-row">
+        <div class="field-wrap">
+          <label for="fname" class="field-label">First name</label>
+          <input type="text" id="fname" name="first_name" placeholder="First name" required>
+        </div>
+        <div class="field-wrap">
+          <label for="lname" class="field-label">Last name</label>
+          <input type="text" id="lname" name="last_name" placeholder="Last name" required>
+        </div>
+      </div>
+      <div class="field-wrap">
+        <label for="email" class="field-label">Email address</label>
+        <input type="email" id="email" name="email" placeholder="Email address" required>
+      </div>
+      <div class="field-wrap">
+        <label for="phone" class="field-label">Phone number</label>
+        <input type="tel" id="phone" name="phone" placeholder="Phone number">
+      </div>
+      <div class="field-wrap">
+        <label for="reason" class="field-label">Reason for visit</label>
+        <select id="reason" name="reason">
+          <option value="" disabled selected>Select a reason</option>
+          <option value="initial">Initial consultation</option>
+          <option value="followup">Follow-up appointment</option>
+          <option value="second-opinion">Second opinion</option>
+          <option value="testing">Cardiac testing</option>
+          <option value="procedure">Procedure inquiry</option>
+        </select>
+      </div>
+      <div class="field-wrap">
+        <label for="notes" class="field-label">Additional notes</label>
+        <textarea id="notes" name="notes" placeholder="Additional notes or questions (optional)"></textarea>
+      </div>
+      <button type="submit" class="form-submit">Request Appointment</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Dr. <em>Umer Iqbal</em>, MD, FACC</div>
+  <div class="footer-links"><a href="#">Privacy Policy</a><a href="#">HIPAA Compliance</a><a href="#">Accessibility</a></div>
+  <div class="footer-copy">© <span id="footer-year">2025</span> All rights reserved</div>
+</footer>
+
+<a href="https://wa.me/923292543307" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+  </svg>
+</a>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50));
+
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target);
+  const duration = Math.min(2400, 600 + target * 0.22); // scales with target value
+  const start = performance.now();
+  (function tick(now) {
+    const p = Math.min((now - start) / duration, 1);
+    el.textContent = Math.floor((1 - Math.pow(1 - p, 3)) * target).toLocaleString();
+    if (p < 1) requestAnimationFrame(tick);
+  })(start);
+}
+const cObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { animateCounter(e.target); cObs.unobserve(e.target); } });
+}, { threshold: 0.5 });
+document.querySelectorAll('.counter').forEach(el => cObs.observe(el));
+
+// Hamburger mobile menu
+const hamburger = document.getElementById('hamburger');
+const mobileNav = document.getElementById('mobile-nav');
+if (hamburger && mobileNav) {
+  hamburger.addEventListener('click', () => {
+    const isOpen = hamburger.classList.toggle('open');
+    mobileNav.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileNav.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+}
+
+// Auto copyright year
+document.getElementById('footer-year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
